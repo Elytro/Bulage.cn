@@ -1,23 +1,521 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>bulage.cn</title>
-    <style>
-        body { font-family: -apple-system, "Segoe UI", sans-serif; display: flex;
-               min-height: 100vh; align-items: center; justify-content: center;
-               margin: 0; background: #f5f5f5; color: #333; }
-        .card { background: #fff; padding: 3rem 4rem; border-radius: 12px;
-                box-shadow: 0 4px 16px rgba(0,0,0,.08); text-align: center; }
-        h1 { margin: 0 0 .5rem; font-size: 1.6rem; }
-        p { margin: 0; color: #888; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>布拉格网游公会 · Prague Guild</title>
+<meta name="keywords" content="布拉格网游公会,布拉格公会,网游公会,公会招募,开荒团">
+<meta name="description" content="布拉格网游公会 —— 并肩作战，不负热爱。多游戏分部、稳定活动、公开制度，欢迎每一位热爱游戏的玩家加入。">
+<link href="https://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://apps.bdimg.com/libs/fontawesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    html, body {
+        background: #fff;
+        color: #232323;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+    a { color: #232323; }
+    a:hover, a:focus { color: #8a6d3b; text-decoration: none; }
+    ::selection { background: #232323; color: #fff; }
+
+    /* 导航 */
+    .navbar-min {
+        background: rgba(255,255,255,.96);
+        border: 0;
+        border-bottom: 1px solid #eee;
+        border-radius: 0;
+        margin-bottom: 0;
+        padding: 8px 0;
+    }
+    .navbar-min .navbar-brand {
+        font-size: 17px;
+        letter-spacing: 3px;
+        font-weight: 500;
+        color: #232323;
+    }
+    .navbar-min .nav > li > a {
+        font-size: 13px;
+        letter-spacing: 2px;
+        color: #777;
+        padding: 15px 16px;
+    }
+    .navbar-min .nav > li > a:hover,
+    .navbar-min .nav > li.active > a { color: #232323; background: transparent; }
+    .navbar-toggle { border-color: #e5e5e5; }
+    .navbar-toggle .icon-bar { background: #666; }
+
+    /* 首屏 */
+    .hero {
+        background: #191c20;
+        color: #fff;
+        padding: 150px 0 0;
+        text-align: center;
+        position: relative;
+    }
+    .hero:before {
+        content: "";
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+        background:
+            radial-gradient(circle at 50% 0%, rgba(255,255,255,.06), transparent 60%),
+            linear-gradient(180deg, #1d2126 0%, #14171b 100%);
+    }
+    .hero .container { position: relative; }
+    .hero .en {
+        font-size: 11px;
+        letter-spacing: 7px;
+        color: #8b8f96;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+    }
+    .hero h1 {
+        font-size: 54px;
+        font-weight: 300;
+        letter-spacing: 12px;
+        margin: 0 0 22px;
+    }
+    .hero .slogan {
+        font-size: 15px;
+        line-height: 2;
+        color: #a8adb4;
+        max-width: 520px;
+        margin: 0 auto 42px;
+        letter-spacing: 1px;
+    }
+    .hero .btn-line {
+        border: 1px solid rgba(255,255,255,.5);
+        background: transparent;
+        color: #fff;
+        border-radius: 0;
+        padding: 11px 34px;
+        font-size: 13px;
+        letter-spacing: 3px;
+        transition: all .25s;
+    }
+    .hero .btn-line:hover, .hero .btn-line:focus {
+        background: #fff;
+        color: #191c20;
+        border-color: #fff;
+    }
+    .hero .btn-line.btn-solid {
+        background: #fff;
+        color: #191c20;
+        border-color: #fff;
+        margin-left: 12px;
+    }
+    .hero .btn-line.btn-solid:hover { background: transparent; color: #fff; }
+
+    /* 数据条 */
+    .stats {
+        border-top: 1px solid rgba(255,255,255,.12);
+        margin-top: 110px;
+        padding: 34px 0;
+    }
+    .stats .col { padding: 6px 10px; }
+    .stats .num {
+        display: block;
+        font-size: 30px;
+        font-weight: 300;
+        letter-spacing: 2px;
+        color: #fff;
+    }
+    .stats .label {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        letter-spacing: 3px;
+        color: #7e838b;
+    }
+
+    /* 通用区块 */
+    .section { padding: 92px 0; }
+    .section.alt { background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+    .section-title {
+        font-size: 12px;
+        letter-spacing: 6px;
+        color: #aaa;
+        text-align: center;
+        margin-bottom: 14px;
+    }
+    .section-desc {
+        text-align: center;
+        color: #999;
+        font-size: 14px;
+        line-height: 2;
+        max-width: 620px;
+        margin: 0 auto 56px;
+    }
+
+    /* 关于 */
+    .feature { padding: 0 18px 8px; }
+    .feature .fa {
+        font-size: 22px;
+        color: #bbb;
+        display: block;
+        margin-bottom: 18px;
+    }
+    .feature h3 {
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+    }
+    .feature p {
+        font-size: 13.5px;
+        line-height: 1.95;
+        color: #888;
+    }
+
+    /* 招募 */
+    .role {
+        border: 1px solid #eee;
+        padding: 30px 24px;
+        text-align: center;
+        background: #fff;
+        margin-bottom: 24px;
+        transition: border-color .25s;
+    }
+    .role:hover { border-color: #d9d9d9; }
+    .role .fa { font-size: 22px; color: #999; margin-bottom: 16px; display: block; }
+    .role h4 {
+        font-size: 15px;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    .role .desc { font-size: 13px; color: #999; line-height: 1.8; min-height: 46px; }
+    .role .tag {
+        display: inline-block;
+        margin-top: 16px;
+        font-size: 11px;
+        letter-spacing: 2px;
+        padding: 3px 12px;
+        border: 1px solid #ddd;
+        color: #999;
+    }
+    .role .tag.hot { border-color: #232323; background: #232323; color: #fff; }
+    .role .tag.off { color: #c5c5c5; border-color: #eee; }
+
+    /* 时间表 */
+    .timetable { max-width: 720px; margin: 0 auto; }
+    .timetable li {
+        border-bottom: 1px dashed #e8e8e8;
+        padding: 16px 4px;
+        font-size: 14px;
+        color: #666;
+        list-style: none;
+    }
+    .timetable li:last-child { border-bottom: 0; }
+    .timetable .day {
+        display: inline-block;
+        width: 92px;
+        color: #232323;
+        letter-spacing: 2px;
+    }
+    .timetable .what { color: #999; }
+    .timetable .time {
+        float: right;
+        color: #bbb;
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    /* 加入流程 */
+    .step {
+        text-align: center;
+        padding: 0 16px 24px;
+    }
+    .step .no {
+        width: 38px; height: 38px;
+        line-height: 36px;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        display: inline-block;
+        color: #999;
+        font-size: 13px;
+        margin-bottom: 18px;
+    }
+    .step h4 { font-size: 15px; letter-spacing: 2px; margin-bottom: 10px; font-weight: 500; }
+    .step p { font-size: 13px; color: #999; line-height: 1.85; }
+
+    /* 联系方式入口 */
+    .join-box {
+        border: 1px solid #eee;
+        padding: 44px 30px;
+        text-align: center;
+        max-width: 760px;
+        margin: 0 auto;
+        background: #fff;
+    }
+    .join-box h3 { font-size: 20px; font-weight: 300; letter-spacing: 4px; margin-bottom: 10px; }
+    .join-box p { color: #999; font-size: 13.5px; margin-bottom: 28px; }
+    .join-box .channel {
+        display: inline-block;
+        margin: 6px 10px;
+        font-size: 13.5px;
+        color: #555;
+        letter-spacing: 1px;
+    }
+    .join-box .channel .fa { color: #999; margin-right: 6px; }
+
+    /* 页脚 */
+    .footer {
+        border-top: 1px solid #eee;
+        padding: 42px 0 36px;
+        text-align: center;
+        color: #999;
+        font-size: 12.5px;
+        line-height: 2.2;
+    }
+    .footer .links { margin-bottom: 14px; }
+    .footer .links a { color: #999; margin: 0 12px; font-size: 13px; }
+    .footer .links a:hover { color: #232323; }
+    .footer .beian a { color: #999; }
+    .footer .beian a:hover { color: #232323; }
+    .footer .beian .fa { margin-right: 3px; }
+    .footer .sep { margin: 0 8px; color: #ddd; }
+
+    @media (max-width: 767px) {
+        .hero { padding-top: 90px; }
+        .hero h1 { font-size: 30px; letter-spacing: 6px; }
+        .hero .btn-line { display: block; margin: 0 30px 12px; }
+        .hero .btn-line.btn-solid { margin: 0 30px 30px; }
+        .stats { margin-top: 60px; }
+        .stats .col { padding-bottom: 20px; }
+        .stats .num { font-size: 24px; }
+        .section { padding: 60px 0; }
+        .timetable .time { float: none; display: block; color: #ccc; margin-top: 4px; }
+    }
+</style>
 </head>
 <body>
-    <div class="card">
-        <h1>bulage.cn</h1>
-        <p>Site initialized by oject.php</p>
+
+<nav class="navbar navbar-min navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-main">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">布拉格公会</a>
+        </div>
+        <div class="collapse navbar-collapse" id="nav-main">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#about">公会简介</a></li>
+                <li><a href="#recruit">招募</a></li>
+                <li><a href="#schedule">活动</a></li>
+                <li><a href="#join">加入</a></li>
+            </ul>
+        </div>
     </div>
+</nav>
+
+<header class="hero">
+    <div class="container">
+        <div class="en">Prague Gaming Guild</div>
+        <h1>布拉格网游公会</h1>
+        <p class="slogan">并肩作战，不负热爱。<br>开荒、竞技、休闲，总有一支队伍在等你。</p>
+        <a href="#join" class="btn btn-line btn-solid">加入公会</a>
+        <a href="#recruit" class="btn btn-line">查看招募</a>
+    </div>
+    <div class="stats">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3 col-xs-6 col">
+                    <span class="num">2016</span>
+                    <span class="label">成立年份</span>
+                </div>
+                <div class="col-sm-3 col-xs-6 col">
+                    <span class="num">1200+</span>
+                    <span class="label">活跃成员</span>
+                </div>
+                <div class="col-sm-3 col-xs-6 col">
+                    <span class="num">380+</span>
+                    <span class="label">攻克副本</span>
+                </div>
+                <div class="col-sm-3 col-xs-6 col">
+                    <span class="num">5</span>
+                    <span class="label">每周固定活动</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="section" id="about">
+    <div class="container">
+        <div class="section-title">ABOUT / 公会简介</div>
+        <p class="section-desc">布拉格公会成立于 2016 年，从一支小型开荒队发展成覆盖多款网游的玩家社区。我们不做人数堆砌，只希望每个上线的人都能找到一起打的人。</p>
+        <div class="row">
+            <div class="col-sm-4 feature">
+                <i class="fa fa-users"></i>
+                <h3>稳定团队</h3>
+                <p>固定团、固定时间、固定指挥，不用每天在世界频道喊人，上线就能开打。</p>
+            </div>
+            <div class="col-sm-4 feature">
+                <i class="fa fa-trophy"></i>
+                <h3>开荒传统</h3>
+                <p>从首杀争夺到高难度挑战，公会保留完整的攻略沉淀与指挥体系，新人也能快速跟上。</p>
+            </div>
+            <div class="col-sm-4 feature">
+                <i class="fa fa-list-alt"></i>
+                <h3>公开制度</h3>
+                <p>DKP 与战利品规则、晋升与劝退机制全部公开可查，管理透明，不搞小圈子。</p>
+            </div>
+        </div>
+        <div class="row" style="margin-top:46px;">
+            <div class="col-sm-4 feature">
+                <i class="fa fa-gamepad"></i>
+                <h3>多游戏分部</h3>
+                <p>MMO、FPS、生存建造均有分部，换游戏不换队友，公会跟着大家一起走。</p>
+            </div>
+            <div class="col-sm-4 feature">
+                <i class="fa fa-comments"></i>
+                <h3>活跃氛围</h3>
+                <p>语音频道全天开放，攻略、配装、搬砖、闲聊都有人回应，拒绝死寂公会。</p>
+            </div>
+            <div class="col-sm-4 feature">
+                <i class="fa fa-shield"></i>
+                <h3>友好环境</h3>
+                <p>禁广告、禁人身攻击、禁恶意竞争，给休闲玩家与硬核玩家都留一个安稳的位置。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section alt" id="recruit">
+    <div class="container">
+        <div class="section-title">RECRUIT / 招募职位</div>
+        <p class="section-desc">以下为当前主力团需求情况，招募长期有效，装备不看脸，看的是能不能稳定出席。</p>
+        <div class="row">
+            <div class="col-sm-3 col-xs-6">
+                <div class="role">
+                    <i class="fa fa-shield"></i>
+                    <h4>坦克</h4>
+                    <p class="desc">主坦 / 副坦，要求熟悉副本机制与拉怪站位。</p>
+                    <span class="tag hot">紧缺</span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <div class="role">
+                    <i class="fa fa-bolt"></i>
+                    <h4>近战输出</h4>
+                    <p class="desc">爆发与循环稳定，能按要求完成转火与机制处理。</p>
+                    <span class="tag">招募中</span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <div class="role">
+                    <i class="fa fa-crosshairs"></i>
+                    <h4>远程输出</h4>
+                    <p class="desc">站位纪律好，优先处理机制目标，配合团队节奏。</p>
+                    <span class="tag">招募中</span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <div class="role">
+                    <i class="fa fa-medkit"></i>
+                    <h4>治疗</h4>
+                    <p class="desc">团刷与单体兼备，熟悉减伤链与技能分配。</p>
+                    <span class="tag hot">紧缺</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="schedule">
+    <div class="container">
+        <div class="section-title">SCHEDULE / 活动时间</div>
+        <p class="section-desc">所有时间均为北京时间（GMT+8），节假日与版本更新期会另行通知加场。</p>
+        <ul class="timetable">
+            <li>
+                <span class="day">周一</span>
+                <span class="what">团队副本 · 开荒进度</span>
+                <span class="time">20:00 - 23:00</span>
+            </li>
+            <li>
+                <span class="day">周三</span>
+                <span class="what">团队副本 · Farm 与带新</span>
+                <span class="time">20:00 - 22:30</span>
+            </li>
+            <li>
+                <span class="day">周五</span>
+                <span class="what">战场 / 竞技场练习</span>
+                <span class="time">20:30 - 23:00</span>
+            </li>
+            <li>
+                <span class="day">周六</span>
+                <span class="what">公会活动 · 竞速与娱乐赛</span>
+                <span class="time">19:30 - 22:00</span>
+            </li>
+            <li>
+                <span class="day">周日</span>
+                <span class="what">自由组队 · 休闲开黑</span>
+                <span class="time">全天</span>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="section alt" id="join">
+    <div class="container">
+        <div class="section-title">JOIN / 加入方式</div>
+        <p class="section-desc">三步即可成为正式成员，全程无需付费，也不会索要任何账号信息。</p>
+        <div class="row">
+            <div class="col-sm-4 step">
+                <span class="no">01</span>
+                <h4>提交申请</h4>
+                <p>通过下方任一渠道联系招募官，说明游戏、职业、常驻时段即可。</p>
+            </div>
+            <div class="col-sm-4 step">
+                <span class="no">02</span>
+                <h4>随团试玩</h4>
+                <p>跟随主力团参与一到两周活动，彼此确认节奏与沟通方式是否合拍。</p>
+            </div>
+            <div class="col-sm-4 step">
+                <span class="no">03</span>
+                <h4>正式入会</h4>
+                <p>通过试玩期后开通公会权限与语音频道，正式成为布拉格的一员。</p>
+            </div>
+        </div>
+        <div class="join-box">
+            <h3>准备好了？</h3>
+            <p>选择一个你顺手的渠道，我们通常会在当天回复。</p>
+            <div>
+                <span class="channel"><i class="fa fa-qq"></i>招募 QQ 群：123456789</span>
+                <span class="channel"><i class="fa fa-headphones"></i>语音频道：布拉格 · 大厅</span>
+                <span class="channel"><i class="fa fa-envelope-o"></i>邮箱：join@bulage.cn</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="links">
+            <a href="#about">公会简介</a>
+            <a href="#recruit">招募</a>
+            <a href="#schedule">活动</a>
+            <a href="#join">加入</a>
+        </div>
+        <div class="beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">鲁ICP备2024092961号-32</a>
+            <span class="sep">|</span>
+            <a href="http://www.beian.gov.cn/" target="_blank" rel="nofollow">
+                <i class="fa fa-shield"></i> 鲁公网安备37130202373077号
+            </a>
+        </div>
+        <div class="copy">
+            &copy; 2026 布拉格网游公会 &nbsp;·&nbsp; bulage.cn
+        </div>
+    </div>
+</footer>
+
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </body>
 </html>
